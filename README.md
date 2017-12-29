@@ -1,6 +1,6 @@
 ## Memory game in JS
 
-<i>What is this?</i>
+### What is this?
 Just a card-matching memory game built in JavaScript
 
 ### How to use
