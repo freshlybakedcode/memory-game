@@ -102,12 +102,12 @@ function testForCompletion() {
     let currentlyMatchedCards = document.querySelectorAll('.matched');
     if (currentlyMatchedCards.length === numberOfPairs * 2) {
         console.log('All pairs matched!');
-        modal.style.opacity = '1';
+        modal.style.display = 'block';
     }
 }
 
 function handlePlayAgain() {
-    modal.style.opacity = '0';
+    modal.style.display = 'none';
     output = '';
     modalOutput = '';
     setUpGameBoard();
