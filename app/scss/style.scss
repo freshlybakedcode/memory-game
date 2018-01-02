@@ -2,29 +2,72 @@
 	box-sizing: border-box;
 }
 
-h1 {
-	color: rebeccapurple;
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 2em;
-	text-align: center;
+@keyframes glow {
+	0%, 100% {
+		box-shadow: 0;
+	}
+	20% {
+		box-shadow: white 0 0 50px 0px;
+	}
+}
+
+body {
+	background: linear-gradient(to right, #fc466b, #3f5efb);
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .container {
-	background-color: #ddd;
-	padding: 1em .5em 0 .5em;
+	background-color: rgba(255, 255, 255, 0.3);
+	border-radius: 3px;
+	padding: 1.5em 1em 0em 1em;
 	display: flex;
 	justify-content: space-around;
 	flex-wrap: wrap;
 	align-items: center;
+	max-width: 960px;
+	margin: 0 auto;
+	border: solid 1px rgba(255, 255, 255, 0.2);
+	width: 100%;
 }
 
 .card {
 	flex-basis: 18%;
-	height: 20vh;
-	font-size: 2em;
+	height: 30%;
 	position: relative;
 	cursor: pointer;
-	margin: 0 0 .5em 0;
+	margin: 0 0 .75em 0;
+	.card-front,
+	.card-back {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		backface-visibility: hidden;
+		transition: transform 0.3s, background-color 0.5s ease-out 1.2s;
+		justify-content: flex-end;
+		border-radius: 4px;
+		box-shadow: rgba(0, 0, 0, 0.2) 1px 1px 6px 1px;
+	}
+	.card-front {
+		border: solid 6px rgba(255, 255, 255, 0.5);
+		background-color: #556; //http://lea.verou.me/css3patterns/#japanese-cube
+		background-image: linear-gradient(30deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445), linear-gradient(150deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445), linear-gradient(30deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445), linear-gradient(150deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445), linear-gradient(60deg, #99a 25%, transparent 25.5%, transparent 75%, #99a 75%, #99a), linear-gradient(60deg, #99a 25%, transparent 25.5%, transparent 75%, #99a 75%, #99a);
+		background-size: 80px 140px;
+		background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
+	}
+	.card-back {
+		background-color: white;
+		border: solid 6px rgba(0, 0, 0, 0.2);
+		transform: rotateY(-180deg);
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		text-align: center;
+		font-size: 15vw;
+	}
 	&.face-up {
 		.card-front {
 			transform: rotateY(-180deg);
@@ -33,32 +76,23 @@ h1 {
 			transform: rotateY(0);
 		}
 	}
-	.card-front,
-	.card-back {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 20vh;
-		backface-visibility: hidden;
-		transition: transform 0.3s;
-		justify-content: flex-end;
-		border-radius: 4px;
+	&.matched {
+		animation: glow 1s;
+		animation-name: glow;
+		animation-duration: .8s;
+		animation-iteration-count: 1;
+		animation-timing-function: linear;
+		animation-delay: .3s;
+		.card-back {
+			background-color: #2ECC40;
+		}
 	}
-	.card-front {
-		border: solid 6px rgba(255, 255, 255, 0.5); 
-		background-color: #556;	//http://lea.verou.me/css3patterns/#japanese-cube
-		background-image: linear-gradient(30deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445), linear-gradient(150deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445), linear-gradient(30deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445), linear-gradient(150deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445), linear-gradient(60deg, #99a 25%, transparent 25.5%, transparent 75%, #99a 75%, #99a), linear-gradient(60deg, #99a 25%, transparent 25.5%, transparent 75%, #99a 75%, #99a);
-		background-size: 80px 140px;
-		background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
-	}
-	.card-back {
-		background: white;
-		border: solid 6px rgba(0, 0, 0, 0.2);
-		transform: rotateY(-180deg);
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		text-align: center;
+}
+
+@media (min-width: 960px) {
+	.card {
+		.card-back {
+			font-size: 145px; //Max font size
+		}
 	}
 }

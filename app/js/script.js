@@ -1,8 +1,7 @@
-//Create an array of tiles/data to match
 const numberOfPairs = 5;
 let pairData = [];
 const container = document.querySelector('.container');
-const delayBeforeTurnBack = 1500;
+const delayBeforeTurnBack = 1100;
 let clickEnabled = true;
 let output = '';
 let currentCard = '';
@@ -10,37 +9,39 @@ let currentCardId = '';
 let firstCardSelected = '';
 let firstCardSelectedId = '';
 
-for (let i = 0; i < numberOfPairs; i++) {
-    pairData.push(i, i);
+function setUpGameBoard() {
+    //Set up the board ready to play
+    pairData = shuffle(pairData);
+
+    //Generate an HTML output string and send to the container
+    pairData.forEach((item) => {
+        output += ` <span class="card" data-card-id=${item}>
+                        <span class="card-front"></span>
+                        <span class="card-back">${item}</span>
+                    </span>`;
+    });
+    container.innerHTML = output;
 }
-//Shuffle up those cards
-pairData = shuffle(pairData);
 
-//Generate an HTML output string and send to the container
-pairData.forEach((item) => {
-    output += ` <span class="card" data-card-id=${item}>
-                    <span class="card-front"></span>
-                    <span class="card-back">${item}</span>
-                </span>`;
-});
-container.innerHTML = output;
-
-//Set listeners on all cards
-const cards = document.querySelectorAll('.card-front');
-cards.forEach(card => card.addEventListener("click", handleCardSelected));
+function setListeners() {
+    //Set listeners on all cards
+    const cards = document.querySelectorAll('.card-front');
+    cards.forEach(card => card.addEventListener("click", handleCardSelected));
+}
 
 function shuffle(array) {
+    //Shuffle up those cards
     var currentIndex = array.length,
         temporaryValue, randomIndex;
 
-    // While there remain elements to shuffle...
+    // While there are remaining elements to shuffle...
     while (0 !== currentIndex) {
 
-        // Pick a remaining element...
+        // ...pick a remaining element...
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex -= 1;
 
-        // And swap it with the current element.
+        // ...and swap it with the current element.
         temporaryValue = array[currentIndex];
         array[currentIndex] = array[randomIndex];
         array[randomIndex] = temporaryValue;
@@ -53,8 +54,8 @@ function handleCardSelected(e) {
     if (clickEnabled) {
         currentCard = e.path[1];
         currentCardId = currentCard.dataset.cardId;
-        if (!currentCard.classList.contains('face-up')) {   //Prevent user choosing same card twice
-            currentCard.classList.add('face-up');           //Add face-up class to reveal card
+        if (!currentCard.classList.contains('face-up')) { //Prevent user choosing same card twice
+            currentCard.classList.add('face-up'); //Add face-up class to reveal card
             if (firstCardSelectedId === '') {
                 firstCardSelectedId = currentCardId;
                 firstCardSelected = currentCard;
@@ -75,11 +76,11 @@ function checkIfMatch() {
     } else {
         //not a match
         console.log(`Not a match! ${currentCardId} ${firstCardSelectedId}`);
-        clickEnabled = false;       //Stop user turning over any other cards
+        clickEnabled = false; //Stop user turning over any other cards
         setTimeout(() => {
             turnCardsBack()
             clickEnabled = true;
-        }, delayBeforeTurnBack);    //Delay before turning cards back over
+        }, delayBeforeTurnBack); //Delay before turning cards back over
     }
     firstCardSelectedId = '';
 }
@@ -101,3 +102,11 @@ function testForCompletion() {
         console.log('All pairs matched! Whoop!');
     }
 }
+
+//Create an array of tiles/data to match
+for (let i = 0; i < numberOfPairs; i++) {
+    pairData.push(i, i);
+}
+
+setUpGameBoard();
+setListeners();
