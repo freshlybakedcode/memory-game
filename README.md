@@ -12,4 +12,4 @@ A card-matching memory game built in JavaScript with some nice CSS3.
 * `gulp build`
 
 ### Just want to see it on GitHub Pages?
-[It's right here](https://freshlybakedcode.github.io/memory-game/)
+* [I got it right here](https://freshlybakedcode.github.io/memory-game/)
