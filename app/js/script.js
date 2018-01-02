@@ -1,8 +1,9 @@
 //Create an array of tiles/data to match
 const numberOfPairs = 5;
-const pairData = [];
+let pairData = [];
 const container = document.querySelector('.container');
 const delayBeforeTurnBack = 1500;
+let clickEnabled = true;
 let output = '';
 let currentCard = '';
 let currentCardId = '';
@@ -12,6 +13,8 @@ let firstCardSelectedId = '';
 for (let i = 0; i < numberOfPairs; i++) {
     pairData.push(i, i);
 }
+//Shuffle up those cards
+pairData = shuffle(pairData);
 
 //Generate an HTML output string and send to the container
 pairData.forEach((item) => {
@@ -26,16 +29,38 @@ container.innerHTML = output;
 const cards = document.querySelectorAll('.card-front');
 cards.forEach(card => card.addEventListener("click", handleCardSelected));
 
+function shuffle(array) {
+    var currentIndex = array.length,
+        temporaryValue, randomIndex;
+
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+
+        // And swap it with the current element.
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+    }
+
+    return array;
+}
+
 function handleCardSelected(e) {
-    currentCard = e.path[1];
-    currentCardId = currentCard.dataset.cardId;
-    if (!currentCard.classList.contains('face-up')) {       //Prevent user choosing same card twice
-        currentCard.classList.add('face-up');               //Add face-up class to reveal card
-        if (firstCardSelectedId === '') {
-            firstCardSelectedId = currentCardId;
-            firstCardSelected = currentCard;
-        } else {
-            checkIfMatch();
+    if (clickEnabled) {
+        currentCard = e.path[1];
+        currentCardId = currentCard.dataset.cardId;
+        if (!currentCard.classList.contains('face-up')) {   //Prevent user choosing same card twice
+            currentCard.classList.add('face-up');           //Add face-up class to reveal card
+            if (firstCardSelectedId === '') {
+                firstCardSelectedId = currentCardId;
+                firstCardSelected = currentCard;
+            } else {
+                checkIfMatch();
+            }
         }
     }
 }
@@ -46,11 +71,15 @@ function checkIfMatch() {
         console.log(`Match! ${currentCardId} ${firstCardSelectedId}`);
         currentCard.classList.add('matched');
         firstCardSelected.classList.add('matched');
-        turnCardsBack();
+        testForCompletion();
     } else {
         //not a match
         console.log(`Not a match! ${currentCardId} ${firstCardSelectedId}`);
-        setTimeout(() => { turnCardsBack() }, delayBeforeTurnBack); //Delay before turning cards back over
+        clickEnabled = false;       //Stop user turning over any other cards
+        setTimeout(() => {
+            turnCardsBack()
+            clickEnabled = true;
+        }, delayBeforeTurnBack);    //Delay before turning cards back over
     }
     firstCardSelectedId = '';
 }
@@ -63,4 +92,12 @@ function turnCardsBack() {
             card.classList.remove('face-up');
         }
     });
+}
+
+function testForCompletion() {
+    //Has the user matched all pairs?
+    let currentlyMatchedCards = document.querySelectorAll('.matched');
+    if (currentlyMatchedCards.length === numberOfPairs * 2) {
+        console.log('All pairs matched! Whoop!');
+    }
 }

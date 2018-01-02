@@ -11,11 +11,10 @@ h1 {
 
 .container {
 	background-color: #ddd;
-	padding: 1em;
+	padding: 1em .5em 0 .5em;
 	display: flex;
 	justify-content: space-around;
 	flex-wrap: wrap;
-	height: 50vh;
 	align-items: center;
 }
 
@@ -24,6 +23,8 @@ h1 {
 	height: 20vh;
 	font-size: 2em;
 	position: relative;
+	cursor: pointer;
+	margin: 0 0 .5em 0;
 	&.face-up {
 		.card-front {
 			transform: rotateY(-180deg);
@@ -45,15 +46,15 @@ h1 {
 		border-radius: 4px;
 	}
 	.card-front {
-		border: solid 6px rgba(255, 255, 255, 0.5); //http://lea.verou.me/css3patterns/#japanese-cube
-		background-color: #556;
+		border: solid 6px rgba(255, 255, 255, 0.5); 
+		background-color: #556;	//http://lea.verou.me/css3patterns/#japanese-cube
 		background-image: linear-gradient(30deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445), linear-gradient(150deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445), linear-gradient(30deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445), linear-gradient(150deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445), linear-gradient(60deg, #99a 25%, transparent 25.5%, transparent 75%, #99a 75%, #99a), linear-gradient(60deg, #99a 25%, transparent 25.5%, transparent 75%, #99a 75%, #99a);
 		background-size: 80px 140px;
 		background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
 	}
 	.card-back {
 		background: white;
-		border: solid 6px rgba(0, 0, 0, 0.3);
+		border: solid 6px rgba(0, 0, 0, 0.2);
 		transform: rotateY(-180deg);
 		display: flex;
 		flex-direction: column;
