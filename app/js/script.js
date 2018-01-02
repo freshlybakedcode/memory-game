@@ -15,23 +15,28 @@ for (let i = 0; i < numberOfPairs; i++) {
 
 //Generate an HTML output string and send to the container
 pairData.forEach((item) => {
-    output += `<span class="card" data-card-id=${item}>${item}</span>`;
+    output += ` <span class="card" data-card-id=${item}>
+                    <span class="card-front"></span>
+                    <span class="card-back">${item}</span>
+                </span>`;
 });
 container.innerHTML = output;
 
 //Set listeners on all cards
-const cards = document.querySelectorAll('.card');
+const cards = document.querySelectorAll('.card-front');
 cards.forEach(card => card.addEventListener("click", handleCardSelected));
 
 function handleCardSelected(e) {
-    currentCard = e.path[0];
+    currentCard = e.path[1];
     currentCardId = currentCard.dataset.cardId;
-    currentCard.classList.add('face-up'); //Add face-up class to reveal card
-    if (firstCardSelectedId === '') {
-        firstCardSelectedId = currentCardId;
-        firstCardSelected = currentCard;
-    } else {
-        checkIfMatch();
+    if (!currentCard.classList.contains('face-up')) {       //Prevent user choosing same card twice
+        currentCard.classList.add('face-up');               //Add face-up class to reveal card
+        if (firstCardSelectedId === '') {
+            firstCardSelectedId = currentCardId;
+            firstCardSelected = currentCard;
+        } else {
+            checkIfMatch();
+        }
     }
 }
 

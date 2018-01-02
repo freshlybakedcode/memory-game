@@ -1,6 +1,7 @@
 * {
 	box-sizing: border-box;
 }
+
 h1 {
 	color: rebeccapurple;
 	font-family: Arial, Helvetica, sans-serif;
@@ -17,18 +18,46 @@ h1 {
 	height: 50vh;
 	align-items: center;
 }
+
 .card {
-	display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
 	flex-basis: 18%;
 	height: 20vh;
-	background-color: white;
 	font-size: 2em;
-	border: solid 1px #333;
-	background-color: black;
+	position: relative;
 	&.face-up {
-		background-color: white;
+		.card-front {
+			transform: rotateY(-180deg);
+		}
+		.card-back {
+			transform: rotateY(0);
+		}
+	}
+	.card-front,
+	.card-back {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 20vh;
+		backface-visibility: hidden;
+		transition: transform 0.3s;
+		justify-content: flex-end;
+		border-radius: 4px;
+	}
+	.card-front {
+		border: solid 6px rgba(255, 255, 255, 0.5); //http://lea.verou.me/css3patterns/#japanese-cube
+		background-color: #556;
+		background-image: linear-gradient(30deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445), linear-gradient(150deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445), linear-gradient(30deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445), linear-gradient(150deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445), linear-gradient(60deg, #99a 25%, transparent 25.5%, transparent 75%, #99a 75%, #99a), linear-gradient(60deg, #99a 25%, transparent 25.5%, transparent 75%, #99a 75%, #99a);
+		background-size: 80px 140px;
+		background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
+	}
+	.card-back {
+		background: white;
+		border: solid 6px rgba(0, 0, 0, 0.3);
+		transform: rotateY(-180deg);
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		text-align: center;
 	}
 }
