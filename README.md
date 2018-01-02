@@ -1,7 +1,7 @@
 ## Memory game in JS
 
 ### What is this?
-Just a card-matching memory game built in JavaScript
+A card-matching memory game built in JavaScript with some nice CSS3.
 
 ### How to use
 * Clone
