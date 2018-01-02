@@ -1,9 +1,11 @@
 const numberOfPairs = 5;
 let pairData = [];
 const container = document.querySelector('.container');
+const modal = document.querySelector('.modal');
 const delayBeforeTurnBack = 1100;
 let clickEnabled = true;
 let output = '';
+let modalOutput = '';
 let currentCard = '';
 let currentCardId = '';
 let firstCardSelected = '';
@@ -24,7 +26,7 @@ function setUpGameBoard() {
 }
 
 function setListeners() {
-    //Set listeners on all cards
+    //Set listeners on all cards and the 'play again' button
     const cards = document.querySelectorAll('.card-front');
     cards.forEach(card => card.addEventListener("click", handleCardSelected));
 }
@@ -99,14 +101,33 @@ function testForCompletion() {
     //Has the user matched all pairs?
     let currentlyMatchedCards = document.querySelectorAll('.matched');
     if (currentlyMatchedCards.length === numberOfPairs * 2) {
-        console.log('All pairs matched! Whoop!');
+        console.log('All pairs matched!');
+        modal.style.opacity = '1';
     }
 }
 
-//Create an array of tiles/data to match
-for (let i = 0; i < numberOfPairs; i++) {
-    pairData.push(i, i);
+function handlePlayAgain() {
+    modal.style.opacity = '0';
+    output = '';
+    modalOutput = '';
+    setUpGameBoard();
+    setListeners();
 }
 
+function firstTimeRun() {
+    //Create an array of tiles/data to match
+    for (let i = 0; i < numberOfPairs; i++) {
+        pairData.push(i, i);
+    }
+    //Generate the modal window content and set listener
+    modalOutput += `<h1>Yay!</h1>
+                    <h2>You matched all the pairs!</h2>
+                    <span class="modal-button">Play again</span>`
+    modal.innerHTML = modalOutput;
+    const modalButton = document.querySelector('.modal-button');
+    modalButton.addEventListener("click", handlePlayAgain);
+}
+
+firstTimeRun();
 setUpGameBoard();
 setListeners();
